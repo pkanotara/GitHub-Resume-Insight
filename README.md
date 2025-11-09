@@ -55,7 +55,6 @@ The app will start at:
 
 ---
 
-
 ## 🧪 Example Output
 
 ✔ Top languages
@@ -71,7 +70,6 @@ The app will start at:
 
 * PDF export
 * AI-generated portfolio summary
-* UI theme switch (dark/light)
 * Compare two GitHub profiles
 * Save results online
 
@@ -93,4 +91,4 @@ If you like this project, don’t forget to ⭐ star the repo — it really help
 ## 📬 Contact
 
 Built with ❤️ by **Pravin**
-GitHub: [https://github.com/pkanotara](https://github.com/pkanotara)
+GitHub: https://github.com/pkanotara
