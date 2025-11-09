@@ -18,19 +18,35 @@ export async function POST(req: Request) {
     let text = "";
 
     if (ext === "pdf") {
-      const mod = await import("pdf-parse");
-      const { PDFParse } = mod as any;
-      // Ensure worker is set to a resolvable file path in Node
-      try {
-        const { createRequire } = await import("node:module");
-        const req = createRequire(import.meta.url);
-        const workerSrc = req.resolve("pdf-parse/dist/worker/pdf.worker.mjs");
-        PDFParse.setWorker(workerSrc);
-      } catch {}
-      const parser = new PDFParse({ data: buffer });
-      const data = await parser.getText();
-      await parser.destroy?.();
-      text = data?.text || "";
+      const PDFParser = (await import("pdf2json")).default;
+      const pdfParser = new PDFParser(null, true);
+      
+      text = await new Promise((resolve, reject) => {
+        pdfParser.on("pdfParser_dataReady", (pdfData: any) => {
+          try {
+            const texts: string[] = [];
+            pdfData?.Pages?.forEach((page: any) => {
+              page?.Texts?.forEach((item: any) => {
+                item?.R?.forEach((run: any) => {
+                  if (run?.T) {
+                    try {
+                      texts.push(decodeURIComponent(run.T));
+                    } catch {
+                      // Fallback: use raw text if decoding fails
+                      texts.push(run.T.replace(/\+/g, " "));
+                    }
+                  }
+                });
+              });
+            });
+            resolve(texts.join(" "));
+          } catch (err) {
+            reject(err);
+          }
+        });
+        pdfParser.on("pdfParser_dataError", (err: any) => reject(err));
+        pdfParser.parseBuffer(buffer);
+      });
     } else if (ext === "docx") {
       const mod = await import("mammoth");
       const mammoth: any = (mod as any).default || (mod as any);
