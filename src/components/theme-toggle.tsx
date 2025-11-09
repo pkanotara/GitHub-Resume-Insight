@@ -10,13 +10,26 @@ export default function ThemeToggle() {
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
   const current = theme === "system" ? systemTheme : theme;
+  const isDark = current === "dark";
   return (
     <button
-      aria-label="Toggle theme"
-      onClick={() => setTheme(current === "dark" ? "light" : "dark")}
-      className="inline-flex items-center justify-center rounded-full border border-zinc-700/40 bg-zinc-900/50 px-2 py-2 text-zinc-300 shadow-sm backdrop-blur transition hover:scale-105 hover:text-zinc-100 dark:border-zinc-200/20 dark:bg-white/5"
+      type="button"
+      role="switch"
+      aria-checked={isDark}
+      aria-label="Toggle dark mode"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      className="relative inline-flex h-9 w-[76px] items-center rounded-full border border-white/10 bg-zinc-900/40 p-1 text-zinc-300 shadow-sm backdrop-blur transition-all hover:scale-[1.02] dark:border-zinc-300/20 dark:bg-white/60"
     >
-      {current === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+      <span
+        className="pointer-events-none absolute inset-1 w-[calc(50%-2px)] rounded-full bg-white/10 shadow-md transition-transform duration-300 ease-out dark:bg-zinc-900/10"
+        style={{ transform: isDark ? "translateX(0%)" : "translateX(100%)" }}
+      />
+      <span className={`relative z-10 flex-1 text-center ${isDark ? "text-emerald-400" : "text-zinc-400"}`}>
+        <Moon size={16} />
+      </span>
+      <span className={`relative z-10 flex-1 text-center ${!isDark ? "text-emerald-500" : "text-zinc-400"}`}>
+        <Sun size={16} />
+      </span>
     </button>
   );
 }

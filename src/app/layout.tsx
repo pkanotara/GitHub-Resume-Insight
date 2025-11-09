@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 };
 
 import { ThemeProvider } from "@/components/theme-provider";
-import ThemeToggle from "@/components/theme-toggle";
+import { Github as GithubIcon } from "lucide-react";
 
 export default function RootLayout({
   children,
@@ -28,16 +28,17 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-gradient-to-b from-zinc-950 to-zinc-900 text-zinc-100 dark:from-zinc-50 dark:to-white dark:text-zinc-900`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-gradient-to-b from-zinc-50 to-white text-zinc-900 dark:from-zinc-950 dark:to-zinc-900 dark:text-zinc-100`}
       >
         <ThemeProvider>
-          <header className="sticky top-0 z-30 w-full border-b border-white/10 bg-black/30 px-6 py-4 backdrop-blur dark:border-zinc-200/20 dark:bg-white/60">
+          <header className="sticky top-0 z-30 w-full border-b border-zinc-200/60 bg-white/70 px-6 py-3 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:border-zinc-800/60 dark:bg-zinc-900/60">
             <div className="mx-auto flex max-w-6xl items-center justify-between">
-              <div className="flex items-center gap-2 text-sm font-medium tracking-tight">
-                <span className="text-emerald-400"></span>
-                <span className="text-zinc-100 dark:text-zinc-900">GitHub Resume Insight</span>
+              <div className="flex items-center gap-3">
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/15 text-emerald-600 ring-1 ring-emerald-500/20 dark:text-emerald-400">
+                  <GithubIcon size={16} />
+                </span>
+                <span className="text-sm font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">GitHub Resume Insight</span>
               </div>
-              <ThemeToggle />
             </div>
           </header>
           {children}
