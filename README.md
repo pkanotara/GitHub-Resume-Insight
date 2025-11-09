@@ -44,7 +44,13 @@ npm install
 yarn install
 ```
 
-3️⃣ Run locally
+3️⃣ Install required UI dependencies
+
+```sh
+npm install clsx lucide-react next-themes react-dropzone
+```
+
+4️⃣ Run locally
 
 ```sh
 npm run dev
