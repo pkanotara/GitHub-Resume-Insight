@@ -22,5 +22,15 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Pretty scrollbars */
+* {
+  scrollbar-width: thin;
+}
+
+@layer utilities {
+  .container {
+    @apply mx-auto max-w-6xl px-6;
+  }
 }
