@@ -19,9 +19,18 @@ export async function POST(req: Request) {
 
     if (ext === "pdf") {
       const mod = await import("pdf-parse");
-      const pdfParse: any = (mod as any).default || (mod as any);
-      const data = await pdfParse(buffer);
-      text = data.text || "";
+      const { PDFParse } = mod as any;
+      // Ensure worker is set to a resolvable file path in Node
+      try {
+        const { createRequire } = await import("node:module");
+        const req = createRequire(import.meta.url);
+        const workerSrc = req.resolve("pdf-parse/dist/worker/pdf.worker.mjs");
+        PDFParse.setWorker(workerSrc);
+      } catch {}
+      const parser = new PDFParse({ data: buffer });
+      const data = await parser.getText();
+      await parser.destroy?.();
+      text = data?.text || "";
     } else if (ext === "docx") {
       const mod = await import("mammoth");
       const mammoth: any = (mod as any).default || (mod as any);
